@@ -1,27 +1,4 @@
-8<!DOCTYPE html>
-<html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#bae6fd">
-<meta name="format-detection" content="telephone=no">
-<title>Для Денчика 🎈</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 100%);
-    height: 100vh;<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
@@ -60,7 +37,6 @@
     overflow: hidden;
   }
 
-  /* Дата весілля зверху */
   .wedding-date {
     position: absolute;
     top: 3%;
@@ -176,10 +152,10 @@
     z-index: 10;
   }
 
-  /* Блок з результатом (текст + фото + лист) */
+  /* Блок з результатом */
   .result-screen {
     position: absolute;
-    top: 12%;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%) scale(0.8);
     width: 90%;
@@ -219,25 +195,44 @@
     line-height: 1.5;
   }
 
-  /* Фото */
-  .photo-frame {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    border: 4px solid #fff;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    overflow: hidden;
+  /* Оновлене фото (формат картки) */
+  .photo-card {
+    background: #fff;
+    padding: 10px 10px 16px 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     margin: 15px 0;
+    transform: rotate(-2deg); /* Легкий нахил для стилю */
+    transition: transform 0.3s;
+  }
+  
+  .photo-card:active {
+    transform: rotate(0deg) scale(1.05);
+  }
+
+  .photo-inner {
+    width: 200px;
+    height: 260px; /* Вертикальний формат, щоб влізло двоє */
+    overflow: hidden;
+    border-radius: 6px;
     background: #fef3c7;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
-  .photo-frame img {
+
+  .photo-inner img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Заповнює рамку, зберігаючи пропорції */
+  }
+
+  .photo-caption {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 700;
+    margin-top: 8px;
   }
 
   /* Кнопка листа */
@@ -300,10 +295,9 @@
 
   .hint.hidden { opacity: 0; transition: opacity 0.3s; }
 
-  /* Кнопка "Ще раз" */
   .again-btn {
     position: absolute;
-    bottom: 5%;
+    bottom: 4%;
     left: 50%;
     transform: translateX(-50%) scale(0);
     background: #ef4444;
@@ -337,19 +331,20 @@
 
   <div id="heartsContainer"></div>
 
-  <!-- Блок результату -->
   <div class="result-screen" id="resultScreen">
     <div class="love-text">
       Я тебе люблю,<br>мій Денчік! ❤️
       <span class="sub" id="daysSub"></span>
     </div>
 
-    <!-- Фото (назвіть файл photo.jpg і покладіть поруч) -->
-    <div class="photo-frame">
-      <img src="photo.jpg" alt="Наше фото" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:2rem;\'>📸</span>';">
+    <!-- НОВЕ ФОТО: Формат картки -->
+    <div class="photo-card">
+      <div class="photo-inner">
+        <img src="photo.jpg" alt="Наше фото" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:3rem;\'>📸</span>';">
+      </div>
+      <div class="photo-caption">Наша родина 💛</div>
     </div>
 
-    <!-- Кнопка-лист -->
     <a href="#" class="letter-btn" id="letterBtn">
       💌 Відкрити лист
     </a>
@@ -405,7 +400,6 @@
   let isPopped = false;
   let heartsInterval = null;
 
-  // Дата весілля: 9 листопада 2021
   const weddingDate = new Date(2021, 10, 9); 
 
   function updateDaysCounter() {
@@ -415,18 +409,14 @@
     daysSub.innerHTML = `Разом уже ${days} днів 💛<br>Ми з синочком дуже тебе чекаємо!`;
   }
 
-  // Текст, який автоматично підставиться у WhatsApp
   const letterText = encodeURIComponent(
-    "Привіт, мій коханий Муж! ❤️\n\n" +
-    "Ця кулька летіла до тебе з дому. Ми з Максом думаємо про тебе ...Ми з тобою, ти з нами... " +
+    "Привіт, мій любий Денчику, муж! ❤️\n\n" +
+    "Ця кулька летіла до тебе з дому. Ми з Максом завжди думаємо про тебе " +
     "Ти наша опора і провода. Обіймаємо тебе міцно-міцно!\n\n" +
-    "Я тебе люблю! Твоя жінка 💌"
+    "Я тебе люблю! Твоя Леся,жінка 💌"
   );
   
-  // Номер телефону (з вашого скріншоту)
   const phoneNumber = "380678008141";
-  
-  // Формуємо посилання для WhatsApp
   letterBtn.href = `https://wa.me/${phoneNumber}?text=${letterText}`;
 
   function playPopSound() {
@@ -544,390 +534,6 @@
   againBtn.addEventListener('click', resetGame);
 
   updateDaysCounter();
-</script>
-</body>
-</html>
-    height: 100dvh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  /* Сцена */
-  .scene {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  /* Контейнер для кота і кульки */
-  .floating-group {
-    position: absolute;
-    left: 50%;
-    bottom: 20%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: float 3s ease-in-out infinite;
-    transition: all 0.8s cubic-bezier(0.4, 0, 1, 1);
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-20px); }
-  }
-
-  /* Стан, коли кулька лопнула */
-  .floating-group.falling {
-    animation: fallDown 1.5s cubic-bezier(0.5, 0, 1, 0.5) forwards;
-  }
-
-  @keyframes fallDown {
-    0% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
-    20% { transform: translateX(-50%) translateY(-50px) rotate(15deg); opacity: 1; }
-    100% { transform: translateX(-50%) translateY(100vh) rotate(45deg); opacity: 0; }
-  }
-
-  /* Кулька */
-  .balloon {
-    width: 120px;
-    height: 150px;
-    background: radial-gradient(circle at 35% 30%, #ff7b7b, #ef4444 60%, #b91c1c);
-    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-    position: relative;
-    cursor: pointer;
-    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.2), 0 10px 20px rgba(239,68,68,0.3);
-    transition: transform 0.1s;
-    z-index: 2;
-  }
-
-  /* Вузлик кульки */
-  .balloon::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 12px solid #b91c1c;
-  }
-
-  /* Блиск на кульці */
-  .balloon::before {
-    content: '';
-    position: absolute;
-    top: 20px;
-    left: 25px;
-    width: 25px;
-    height: 35px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 50%;
-    transform: rotate(-30deg);
-  }
-
-  .balloon:active {
-    transform: scale(0.95);
-  }
-
-  /* Нитка */
-  .string {
-    width: 2px;
-    height: 80px;
-    background: #4b5563;
-    margin-top: -2px;
-    z-index: 1;
-    transition: opacity 0.2s;
-  }
-
-  /* Кіт (SVG) */
-  .cat {
-    width: 140px;
-    height: auto;
-    margin-top: -15px;
-    position: relative;
-    z-index: 3;
-    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
-  }
-
-  /* Вибух (частинки) */
-  .particle {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 10;
-  }
-
-  /* Текст-зізнання */
-  .love-text {
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%) scale(0.5);
-    font-size: 2.2rem;
-    font-weight: 900;
-    color: #ef4444;
-    text-align: center;
-    line-height: 1.2;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 0 10px 20px rgba(239,68,68,0.3);
-    width: 90%;
-    z-index: 20;
-  }
-
-  .love-text.show {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-
-  /* Сердечка на фоні */
-  .bg-heart {
-    position: absolute;
-    color: #fca5a5;
-    opacity: 0.4;
-    animation: floatUp 6s linear infinite;
-    pointer-events: none;
-  }
-
-  @keyframes floatUp {
-    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-    20% { opacity: 0.6; }
-    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
-  }
-
-  /* Підказка */
-  .hint {
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.8);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #6b7280;
-    white-space: nowrap;
-    animation: pulse 1.5s infinite;
-    pointer-events: none;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
-    50% { transform: translateX(-50%) scale(1.05); opacity: 0.7; }
-  }
-
-  .hint.hidden {
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-</style>
-</head>
-<body>
-
-<div class="scene" id="scene">
-  <!-- Фонові сердечка -->
-  <div id="heartsContainer"></div>
-
-  <!-- Текст-зізнання -->
-  <div class="love-text" id="loveText">
-    Я тебе люблю,<br>мій Денчік! ❤️
-  </div>
-
-  <!-- Підказка -->
-  <div class="hint" id="hint">Лопни кульку 👆</div>
-
-  <!-- Група: Кулька + Нитка + Кіт -->
-  <div class="floating-group" id="group">
-    
-    <!-- Кулька -->
-    <div class="balloon" id="balloon"></div>
-    
-    <!-- Нитка -->
-    <div class="string" id="string"></div>
-    
-    <!-- Кіт (SVG) -->
-    <svg class="cat" id="cat" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-      <!-- Задня лапка -->
-      <ellipse cx="150" cy="150" rx="20" ry="15" fill="#f59e0b"/>
-      <ellipse cx="150" cy="155" rx="15" ry="8" fill="#fef3c7"/>
-      
-      <!-- Тіло -->
-      <ellipse cx="100" cy="130" rx="55" ry="45" fill="#fcd34d"/>
-      
-      <!-- Живіт -->
-      <ellipse cx="100" cy="140" rx="35" ry="30" fill="#fef3c7"/>
-      
-      <!-- Хвіст -->
-      <path d="M 155 135 Q 175 115 165 95" stroke="#fcd34d" stroke-width="14" stroke-linecap="round" fill="none"/>
-      
-      <!-- Голова -->
-      <ellipse cx="85" cy="85" rx="45" ry="40" fill="#fcd34d"/>
-      
-      <!-- Вушка -->
-      <path d="M 50 65 L 40 35 L 65 55 Z" fill="#f59e0b"/>
-      <path d="M 50 65 L 45 45 L 60 58 Z" fill="#fbcfe8"/>
-      <path d="M 120 65 L 130 35 L 105 55 Z" fill="#f59e0b"/>
-      <path d="M 120 65 L 125 45 L 110 58 Z" fill="#fbcfe8"/>
-      
-      <!-- Мордочка (біла частина) -->
-      <ellipse cx="85" cy="95" rx="30" ry="22" fill="#fef3c7"/>
-      
-      <!-- Очі (заплющені, щасливі) -->
-      <path d="M 65 85 Q 72 78 79 85" stroke="#78350f" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M 91 85 Q 98 78 105 85" stroke="#78350f" stroke-width="3" fill="none" stroke-linecap="round"/>
-      
-      <!-- Рум'янець -->
-      <ellipse cx="60" cy="95" rx="8" ry="5" fill="#fca5a5" opacity="0.6"/>
-      <ellipse cx="110" cy="95" rx="8" ry="5" fill="#fca5a5" opacity="0.6"/>
-      
-      <!-- Носик -->
-      <path d="M 82 92 L 88 92 L 85 96 Z" fill="#fca5a5"/>
-      
-      <!-- Ротик (сумний/напружений, бо тримається) -->
-      <path d="M 80 100 Q 85 98 90 100" stroke="#78350f" stroke-width="2" fill="none" stroke-linecap="round"/>
-      
-      <!-- Вуса -->
-      <line x1="45" y1="92" x2="60" y2="92" stroke="#78350f" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="45" y1="98" x2="60" y2="96" stroke="#78350f" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="125" y1="92" x2="110" y2="92" stroke="#78350f" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="125" y1="98" x2="110" y2="96" stroke="#78350f" stroke-width="1.5" stroke-linecap="round"/>
-      
-      <!-- Лапки, що тримаються за нитку -->
-      <ellipse cx="85" cy="115" rx="12" ry="10" fill="#f59e0b"/>
-      <ellipse cx="85" cy="115" rx="8" ry="6" fill="#fef3c7"/>
-    </svg>
-  </div>
-</div>
-
-<script>
-  const balloon = document.getElementById('balloon');
-  const group = document.getElementById('group');
-  const string = document.getElementById('string');
-  const loveText = document.getElementById('loveText');
-  const hint = document.getElementById('hint');
-  const scene = document.getElementById('scene');
-  const heartsContainer = document.getElementById('heartsContainer');
-
-  let isPopped = false;
-
-  // Звук лопання (Web Audio API)
-  function playPopSound() {
-    try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
-      
-      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-      
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.1);
-    } catch(e) {}
-  }
-
-  // Вібрація (якщо підтримується)
-  function vibrate() {
-    if (navigator.vibrate) {
-      navigator.vibrate([50, 30, 50]);
-    }
-  }
-
-  // Створення частинок (конфеті)
-  function createParticles(x, y) {
-    const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899'];
-    
-    for (let i = 0; i < 30; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      particle.style.left = x + 'px';
-      particle.style.top = y + 'px';
-      scene.appendChild(particle);
-
-      const angle = Math.random() * Math.PI * 2;
-      const velocity = 50 + Math.random() * 150;
-      const tx = Math.cos(angle) * velocity;
-      const ty = Math.sin(angle) * velocity - 50; // Трохи вгору
-
-      // Анімація через Web Animations API
-      particle.animate([
-        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-        { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
-      ], {
-        duration: 800 + Math.random() * 400,
-        easing: 'cubic-bezier(0, 0.9, 0.57, 1)'
-      }).onfinish = () => particle.remove();
-    }
-  }
-
-  // Логіка лопання
-  balloon.addEventListener('click', (e) => {
-    if (isPopped) return;
-    isPopped = true;
-
-    // Отримуємо координати кульки
-    const rect = balloon.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    // Звук та вібрація
-    playPopSound();
-    vibrate();
-
-    // Ховаємо кульку та нитку
-    balloon.style.display = 'none';
-    string.style.display = 'none';
-    hint.classList.add('hidden');
-
-    // Створюємо конфеті
-    createParticles(centerX, centerY);
-
-    // Запускаємо анімацію падіння кота
-    group.classList.add('falling');
-
-    // Показуємо текст через 0.3 секунди (коли кіт почне падати)
-    setTimeout(() => {
-      loveText.classList.add('show');
-      // Запускаємо сердечка на фоні
-      startBackgroundHearts();
-    }, 300);
-  });
-
-  // Фонові сердечка
-  function startBackgroundHearts() {
-    setInterval(() => {
-      const heart = document.createElement('div');
-      heart.className = 'bg-heart';
-      heart.innerHTML = '❤️';
-      heart.style.left = Math.random() * 100 + '%';
-      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-      heart.style.animationDuration = (Math.random() * 2 + 4) + 's';
-      heartsContainer.appendChild(heart);
-      
-      setTimeout(() => heart.remove(), 6000);
-    }, 300);
-  }
 </script>
 </body>
 </html>
