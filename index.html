@@ -155,7 +155,7 @@
   /* Блок з результатом */
   .result-screen {
     position: absolute;
-    top: 10%;
+    top: 8%; /* Трохи підняв, щоб все влізло на екран */
     left: 50%;
     transform: translateX(-50%) scale(0.8);
     width: 90%;
@@ -201,8 +201,8 @@
     padding: 10px 10px 16px 10px;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    margin: 15px 0;
-    transform: rotate(-2deg); /* Легкий нахил для стилю */
+    margin: 10px 0 15px 0;
+    transform: rotate(-2deg);
     transition: transform 0.3s;
   }
   
@@ -210,21 +210,22 @@
     transform: rotate(0deg) scale(1.05);
   }
 
+  /* ЗМІНИ ТУТ: фото тепер підлаштовується під свій оригінальний розмір */
   .photo-inner {
-    width: 200px;
-    height: 260px; /* Вертикальний формат, щоб влізло двоє */
-    overflow: hidden;
+    max-width: 250px; /* Обмежуємо максимальну ширину, щоб не розтягнуло на весь екран */
     border-radius: 6px;
     background: #fef3c7;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
   .photo-inner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Заповнює рамку, зберігаючи пропорції */
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
   }
 
   .photo-caption {
@@ -297,7 +298,7 @@
 
   .again-btn {
     position: absolute;
-    bottom: 4%;
+    bottom: 3%;
     left: 50%;
     transform: translateX(-50%) scale(0);
     background: #ef4444;
@@ -337,7 +338,7 @@
       <span class="sub" id="daysSub"></span>
     </div>
 
-    <!-- НОВЕ ФОТО: Формат картки -->
+    <!-- ФОТО -->
     <div class="photo-card">
       <div class="photo-inner">
         <img src="photo.jpg" alt="Наше фото" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:3rem;\'>📸</span>';">
@@ -406,14 +407,15 @@
     const now = new Date();
     const diffMs = now - weddingDate;
     const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    daysSub.innerHTML = `Разом уже ${days} днів 💛<br>Ми з синочком дуже тебе чекаємо!`;
+    daysSub.innerHTML = `Разом уже ${days} днів 💛<br>Ми з Максом,Мерсіком обіймаємо тебе!`;
   }
 
+  // Оновлений текст листа
   const letterText = encodeURIComponent(
     "Привіт, мій любий Денчику, муж! ❤️\n\n" +
-    "Ця кулька летіла до тебе з дому. Ми з Максом завжди думаємо про тебе " +
+    "Ця кулька летіла до тебе з дому. Ми з Максом завжди думаємо про тебе. " +
     "Ти наша опора і провода. Обіймаємо тебе міцно-міцно!\n\n" +
-    "Я тебе люблю! Твоя Леся,жінка 💌"
+    "Я тебе люблю! Твоя Леся, жінка 💌"
   );
   
   const phoneNumber = "380678008141";
